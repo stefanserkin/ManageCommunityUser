@@ -2,7 +2,8 @@
   "packageDirectories": [
     {
       "path": "force-app",
-      "default": true
+      "default": true,
+      "definitionFile": "config/project-scratch-def.json"
     }
   ],
   "name": "ManageCommunityUser",
