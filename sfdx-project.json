@@ -1,13 +1,21 @@
 {
   "packageDirectories": [
     {
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
       "path": "force-app",
       "default": true,
-      "definitionFile": "config/project-scratch-def.json"
+      "definitionFile": "config/project-scratch-def.json",
+      "package": "Manage Community User",
+      "versionDescription": "Manage community users from contact record pages"
     }
   ],
   "name": "ManageCommunityUser",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "62.0"
+  "sourceApiVersion": "62.0",
+  "packageAliases": {
+    "Manage Community User": "0HoPg000000029tKAA",
+    "Manage Community User@0.1.0-1": "04tPg0000008YnhIAE"
+  }
 }

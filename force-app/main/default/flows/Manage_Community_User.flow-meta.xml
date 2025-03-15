@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Get_Base_URL</name>
         <label>Get Base URL</label>
-        <locationX>578</locationX>
+        <locationX>314</locationX>
         <locationY>674</locationY>
         <actionName>FlowGetOrgBaseUrl</actionName>
         <actionType>apex</actionType>
@@ -23,7 +23,7 @@
         <name>Reset_User_Password</name>
         <label>Reset User Password</label>
         <locationX>50</locationX>
-        <locationY>1214</locationY>
+        <locationY>1346</locationY>
         <actionName>FlowResetPassword</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -51,66 +51,31 @@
     </actionCalls>
     <apiVersion>62.0</apiVersion>
     <assignments>
-        <name>Replace_Nickname_for_Retry</name>
-        <label>Replace Nickname for Retry</label>
-        <locationX>2162</locationX>
-        <locationY>1430</locationY>
-        <assignmentItems>
-            <assignToReference>user.CommunityNickname</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>strFmlNewUserNicknameUnique</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Insert_User</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Set_Error_Network_Member_Not_Found</name>
-        <label>Set Error - Network Member Not Found</label>
-        <locationX>1634</locationX>
+        <name>Disable_Login_Button</name>
+        <label>Disable Login Button</label>
+        <locationX>842</locationX>
         <locationY>674</locationY>
         <assignmentItems>
-            <assignToReference>strCustomErrorMessage</assignToReference>
+            <assignToReference>loginAsUserIsDisabled</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>ttErrorNetworkMemberNotFound</elementReference>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Screen</targetReference>
+            <targetReference>User_Details_Screen</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Set_Error_Profile_Not_Found</name>
-        <label>Set Error - Profile Not Found</label>
-        <locationX>2690</locationX>
-        <locationY>998</locationY>
-        <assignmentItems>
-            <assignToReference>strCustomErrorMessage</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>ttErrorProfileNotFound</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Screen</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Set_Error_Settings_Not_Found</name>
-        <label>Set Error - Settings Not Found</label>
-        <locationX>3218</locationX>
+        <name>Set_Error_to_Enable_Result</name>
+        <label>Set Error to Enable Result</label>
+        <locationX>1634</locationX>
         <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>strCustomErrorMessage</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>ttErrorSettingsNotFound</elementReference>
+                <elementReference>Enable_Community_User.errorMessage</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -122,7 +87,7 @@
         <name>Set_Unexpected_Type_Error</name>
         <label>Set Unexpected Type Error</label>
         <locationX>1106</locationX>
-        <locationY>1106</locationY>
+        <locationY>1238</locationY>
         <assignmentItems>
             <assignToReference>strCustomErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -136,119 +101,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Set_User_Defaults</name>
-        <label>Set User Defaults</label>
-        <locationX>1898</locationX>
-        <locationY>998</locationY>
-        <assignmentItems>
-            <assignToReference>user.ProfileId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_Profile.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.IsActive</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.TimeZoneSidKey</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$User.TimeZoneSidKey</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.LocaleSidKey</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$User.LocaleSidKey</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.LanguageLocaleKey</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$User.LanguageLocaleKey</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.EmailEncodingKey</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>EMAIL_ENCODING_KEY</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Set_User_Details</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Set_User_Details</name>
-        <label>Set User Details</label>
-        <locationX>1898</locationX>
-        <locationY>1106</locationY>
-        <assignmentItems>
-            <assignToReference>user.ContactId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>recordId.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.Username</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Input_Username.value</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.Email</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>strFmlNewUserEmail</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.FirstName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>recordId.FirstName</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.LastName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>recordId.LastName</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.Alias</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>strFmlNewUserAlias</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.CommunityNickname</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>strFmlNewUserNicknameDefault</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Insert_User</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Set_User_for_Disabling</name>
         <label>Set User for Disabling</label>
         <locationX>578</locationX>
-        <locationY>1214</locationY>
+        <locationY>1346</locationY>
         <assignmentItems>
             <assignToReference>user.Id</assignToReference>
             <operator>Assign</operator>
@@ -283,25 +139,11 @@
             <stringValue>reset</stringValue>
         </value>
     </choices>
-    <constants>
-        <name>EMAIL_ENCODING_KEY</name>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>UTF-8</stringValue>
-        </value>
-    </constants>
-    <constants>
-        <name>SETTINGS_NAME</name>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Default</stringValue>
-        </value>
-    </constants>
     <decisions>
         <name>Check_Action_Type</name>
         <label>Check Action Type</label>
         <locationX>578</locationX>
-        <locationY>998</locationY>
+        <locationY>1130</locationY>
         <defaultConnector>
             <targetReference>Set_Unexpected_Type_Error</targetReference>
         </defaultConnector>
@@ -338,35 +180,9 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Check_for_Duplicate_Nickname_Error</name>
-        <label>Check for Duplicate Nickname Error</label>
-        <locationX>2294</locationX>
-        <locationY>1322</locationY>
-        <defaultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Screen</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Has_Duplicate_Nickname_Error</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Flow.FaultMessage</leftValueReference>
-                <operator>Contains</operator>
-                <rightValue>
-                    <stringValue>DUPLICATE_COMM_NICKNAME</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Replace_Nickname_for_Retry</targetReference>
-            </connector>
-            <label>Has Duplicate Nickname Error</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Check_for_User_Permission</name>
         <label>Check for User Permission</label>
-        <locationX>2970</locationX>
+        <locationX>1601</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>Invalid_Access_Screen</targetReference>
@@ -389,12 +205,13 @@
         </rules>
     </decisions>
     <decisions>
+        <description>Check if the running user is a member of the community. Otherwise, disable log in as user button and no need to fetch the url.</description>
         <name>Check_Get_Network_Member</name>
         <label>Check Get Network Member</label>
-        <locationX>1106</locationX>
+        <locationX>578</locationX>
         <locationY>566</locationY>
         <defaultConnector>
-            <targetReference>Set_Error_Network_Member_Not_Found</targetReference>
+            <targetReference>Disable_Login_Button</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Network Member Not Found</defaultConnectorLabel>
         <rules>
@@ -414,59 +231,9 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Check_Get_Profile</name>
-        <label>Check Get Profile</label>
-        <locationX>2294</locationX>
-        <locationY>890</locationY>
-        <defaultConnector>
-            <targetReference>Set_Error_Profile_Not_Found</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Got_Profile</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Profile</leftValueReference>
-                <operator>IsBlank</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Set_User_Defaults</targetReference>
-            </connector>
-            <label>Got Profile</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_Get_Settings</name>
-        <label>Check Get Settings</label>
-        <locationX>2756</locationX>
-        <locationY>674</locationY>
-        <defaultConnector>
-            <targetReference>Set_Error_Settings_Not_Found</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Settings Not Found</defaultConnectorLabel>
-        <rules>
-            <name>Got_Settings</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Settings</leftValueReference>
-                <operator>IsBlank</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Get_Profile</targetReference>
-            </connector>
-            <label>Got Settings</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Check_Get_User</name>
         <label>Check Get User</label>
-        <locationX>1931</locationX>
+        <locationX>1040</locationX>
         <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Enable_User_Screen</targetReference>
@@ -488,6 +255,31 @@
             <label>Has Community User</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Check_Result</name>
+        <label>Check Result</label>
+        <locationX>1502</locationX>
+        <locationY>674</locationY>
+        <defaultConnector>
+            <targetReference>Set_Error_to_Enable_Result</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Has Error</defaultConnectorLabel>
+        <rules>
+            <name>Is_Success</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Enable_Community_User.isSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Success_Enabling_User_Screen</targetReference>
+            </connector>
+            <label>Is Success</label>
+        </rules>
+    </decisions>
     <description>Screen Flow for contact record pages. Enable user, reset password or login as the contact&apos;s community user.</description>
     <environments>Default</environments>
     <formulas>
@@ -499,30 +291,9 @@
 &quot;&amp;sunetworkuserid=&quot; + {!Get_User.Id}</expression>
     </formulas>
     <formulas>
-        <name>strFmlNewUserAlias</name>
-        <dataType>String</dataType>
-        <expression>LOWER( LEFT({!recordId.FirstName}, 1) &amp; LEFT({!recordId.LastName}, 4) )</expression>
-    </formulas>
-    <formulas>
         <name>strFmlNewUserEmail</name>
         <dataType>String</dataType>
         <expression>IF( {!Input_EmailIsDifferent}, {!Input_Email.value}, {!Input_Username.value} )</expression>
-    </formulas>
-    <formulas>
-        <name>strFmlNewUserNicknameDefault</name>
-        <dataType>String</dataType>
-        <expression>LEFT( 
-  LEFT( {!Input_Username.value}, FIND(&quot;@&quot;, {!Input_Username.value}) - 1 ), 
-  40
-)</expression>
-    </formulas>
-    <formulas>
-        <name>strFmlNewUserNicknameUnique</name>
-        <dataType>String</dataType>
-        <expression>LEFT( 
-  LEFT( {!Input_Username.value}, FIND(&quot;@&quot;, {!Input_Username.value}) - 1 ) &amp; RIGHT({!$Flow.InterviewGuid}, 10), 
-  40
-)</expression>
     </formulas>
     <interviewLabel>Manage Community User {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Manage Community User</label>
@@ -545,23 +316,10 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
-    <recordCreates>
-        <name>Insert_User</name>
-        <label>Insert User</label>
-        <locationX>1898</locationX>
-        <locationY>1214</locationY>
-        <connector>
-            <targetReference>Success_Enabling_User_Screen</targetReference>
-        </connector>
-        <faultConnector>
-            <targetReference>Check_for_Duplicate_Nickname_Error</targetReference>
-        </faultConnector>
-        <inputReference>user</inputReference>
-    </recordCreates>
     <recordLookups>
         <name>Get_Network_Member</name>
         <label>Get Network Member</label>
-        <locationX>1106</locationX>
+        <locationX>578</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -580,60 +338,9 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Profile</name>
-        <label>Get Profile</label>
-        <locationX>2294</locationX>
-        <locationY>782</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Check_Get_Profile</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Screen</targetReference>
-        </faultConnector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Name</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Settings.Profile_Name__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Profile</object>
-        <queriedFields>Id</queriedFields>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Settings</name>
-        <label>Get Settings</label>
-        <locationX>2756</locationX>
-        <locationY>566</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Check_Get_Settings</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Screen</targetReference>
-        </faultConnector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>DeveloperName</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>SETTINGS_NAME</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Community_User_Setting__mdt</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>Get_User</name>
         <label>Get User</label>
-        <locationX>1931</locationX>
+        <locationX>1040</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -665,7 +372,7 @@
         <name>Update_User_Disable</name>
         <label>Update User - Disable</label>
         <locationX>578</locationX>
-        <locationY>1322</locationY>
+        <locationY>1454</locationY>
         <connector>
             <targetReference>Success_Disabling_User_Screen</targetReference>
         </connector>
@@ -680,7 +387,7 @@
         <name>Confirm_Disable_User_Screen</name>
         <label>Confirm Disable User Screen</label>
         <locationX>578</locationX>
-        <locationY>1106</locationY>
+        <locationY>1238</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -700,7 +407,7 @@
         <name>Confirm_Reset_Password_Screen</name>
         <label>Confirm Reset Password Screen</label>
         <locationX>50</locationX>
-        <locationY>1106</locationY>
+        <locationY>1238</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -719,13 +426,13 @@
     <screens>
         <name>Enable_User_Screen</name>
         <label>Enable User Screen</label>
-        <locationX>2756</locationX>
+        <locationX>1502</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Get_Settings</targetReference>
+            <targetReference>Enable_Community_User</targetReference>
         </connector>
         <fields>
             <name>Enable_User_Screen_Message</name>
@@ -806,7 +513,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>3746</locationX>
+        <locationX>1898</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -853,7 +560,7 @@
     <screens>
         <name>Invalid_Access_Screen</name>
         <label>Invalid Access Screen</label>
-        <locationX>4010</locationX>
+        <locationX>2162</locationX>
         <locationY>242</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -870,7 +577,7 @@
         <name>Success_Disabling_User_Screen</name>
         <label>Success Disabling User Screen</label>
         <locationX>578</locationX>
-        <locationY>1430</locationY>
+        <locationY>1562</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -886,8 +593,8 @@
     <screens>
         <name>Success_Enabling_User_Screen</name>
         <label>Success Enabling User Screen</label>
-        <locationX>1898</locationX>
-        <locationY>1322</locationY>
+        <locationX>1370</locationX>
+        <locationY>782</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -904,7 +611,7 @@
         <name>Success_Resetting_Password_Screen</name>
         <label>Success Resetting Password Screen</label>
         <locationX>50</locationX>
-        <locationY>1322</locationY>
+        <locationY>1454</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -921,7 +628,7 @@
         <name>User_Actions_Screen</name>
         <label>User Actions Screen</label>
         <locationX>578</locationX>
-        <locationY>890</locationY>
+        <locationY>1022</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -945,7 +652,7 @@
         <name>User_Details_Screen</name>
         <label>User Details Screen</label>
         <locationX>578</locationX>
-        <locationY>782</locationY>
+        <locationY>914</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1035,7 +742,7 @@
             <inputParameters>
                 <name>disabled</name>
                 <value>
-                    <booleanValue>false</booleanValue>
+                    <elementReference>loginAsUserIsDisabled</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -1062,6 +769,12 @@
                     <elementReference>strFmlLogInAsUserUrl</elementReference>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>disabledTooltip</name>
+                <value>
+                    <elementReference>ttLoginAsUserDisabledTooltipMessage</elementReference>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1071,13 +784,42 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>2844</locationX>
+        <locationX>1475</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_for_User_Permission</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>Enable_Community_User</name>
+        <label>Enable Community User</label>
+        <locationX>1502</locationX>
+        <locationY>566</locationY>
+        <connector>
+            <targetReference>Check_Result</targetReference>
+        </connector>
+        <flowName>Enable_Community_User</flowName>
+        <inputAssignments>
+            <name>contactId</name>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>email</name>
+            <value>
+                <elementReference>strFmlNewUserEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>username</name>
+            <value>
+                <elementReference>Input_Username.value</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
     <textTemplates>
         <name>ttConfirmDisableUserMessage</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
@@ -1094,16 +836,6 @@
         <text>Could not find a Network Member record for the community user.</text>
     </textTemplates>
     <textTemplates>
-        <name>ttErrorProfileNotFound</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>The profile defined in the community user settings could not be found.</text>
-    </textTemplates>
-    <textTemplates>
-        <name>ttErrorSettingsNotFound</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Community user settings could not be found.</text>
-    </textTemplates>
-    <textTemplates>
         <name>ttErrorUnexpectedTypeMessage</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>The {!Input_Action_Type} user action is not supported.</text>
@@ -1114,6 +846,11 @@
         <text>&lt;p&gt;You do not have access to manage community users.&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
+        <name>ttLoginAsUserDisabledTooltipMessage</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>You must also be a member of the Experience to log in as the user</text>
+    </textTemplates>
+    <textTemplates>
         <name>ttSuccessDisablingUserMessage</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
         <text>&lt;p&gt;The user was successfully disabled.&lt;/p&gt;</text>
@@ -1121,13 +858,23 @@
     <textTemplates>
         <name>ttSuccessEnablingUserMessage</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Success! &lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;﻿&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;An email has been sent to {!user.Email}.&lt;/span&gt;&lt;/p&gt;</text>
+        <text>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Success! &lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;﻿&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;An email has been sent to {!Enable_Community_User.user.Email}&lt;/span&gt;&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>ttSuccessResettingPasswordMessage</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
         <text>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Success!&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;An email has been sent to {!Get_User.Email}.&lt;/span&gt;&lt;/p&gt;</text>
     </textTemplates>
+    <variables>
+        <name>loginAsUserIsDisabled</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
     <variables>
         <name>recordId</name>
         <dataType>SObject</dataType>

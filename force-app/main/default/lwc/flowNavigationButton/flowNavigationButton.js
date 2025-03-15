@@ -7,6 +7,7 @@ export default class FlowNavigationButton extends LightningElement {
     @api iconName;
     @api openInNewTab = false;
     @api disabled = false;
+    @api disabledTooltip;
 
     handleClick() {
         window.open(this.url, this.targetBehavior);
@@ -14,5 +15,11 @@ export default class FlowNavigationButton extends LightningElement {
 
     get targetBehavior() {
         return this.openInNewTab ? '_blank' : '_self';
+    }
+
+    get buttonTitle() {
+        return this.disabled ? 
+            (this.disabledTooltip ? this.disabledTooltip : 'This button is disabled') : 
+            '';
     }
 }
