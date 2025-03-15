@@ -1,6 +1,6 @@
 # Manage Community User
 
-Resource for contact record pages to manage the related community user.
+Resource to manage community users from contact record pages.
 
 ## Docs
 
