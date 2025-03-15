@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Flow Navigation Button</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="label" label="Label" type="String" />
+            <property name="url" label="URL" type="String" />
+            <property name="variant" label="Button Variant" type="String" />
+            <property name="iconName" label="Icon Name" type="String" />
+            <property name="openInNewTab" label="Open in New Tab" type="Boolean" />
+            <property name="disabled" label="Disabled" type="Boolean" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
