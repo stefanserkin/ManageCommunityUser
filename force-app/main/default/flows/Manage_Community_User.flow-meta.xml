@@ -49,7 +49,7 @@
         <nameSegment>FlowResetPassword</nameSegment>
         <offset>0</offset>
     </actionCalls>
-    <apiVersion>63.0</apiVersion>
+    <apiVersion>62.0</apiVersion>
     <assignments>
         <name>Replace_Nickname_for_Retry</name>
         <label>Replace Nickname for Retry</label>
