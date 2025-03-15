@@ -4,7 +4,7 @@
         <name>Get_Base_URL</name>
         <label>Get Base URL</label>
         <locationX>578</locationX>
-        <locationY>566</locationY>
+        <locationY>674</locationY>
         <actionName>FlowGetOrgBaseUrl</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -23,7 +23,7 @@
         <name>Reset_User_Password</name>
         <label>Reset User Password</label>
         <locationX>50</locationX>
-        <locationY>1106</locationY>
+        <locationY>1214</locationY>
         <actionName>FlowResetPassword</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -54,7 +54,7 @@
         <name>Replace_Nickname_for_Retry</name>
         <label>Replace Nickname for Retry</label>
         <locationX>2162</locationX>
-        <locationY>1322</locationY>
+        <locationY>1430</locationY>
         <assignmentItems>
             <assignToReference>user.CommunityNickname</assignToReference>
             <operator>Assign</operator>
@@ -71,7 +71,7 @@
         <name>Set_Error_Network_Member_Not_Found</name>
         <label>Set Error - Network Member Not Found</label>
         <locationX>1634</locationX>
-        <locationY>566</locationY>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>strCustomErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -88,7 +88,7 @@
         <name>Set_Error_Profile_Not_Found</name>
         <label>Set Error - Profile Not Found</label>
         <locationX>2690</locationX>
-        <locationY>890</locationY>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>strCustomErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -105,7 +105,7 @@
         <name>Set_Error_Settings_Not_Found</name>
         <label>Set Error - Settings Not Found</label>
         <locationX>3218</locationX>
-        <locationY>674</locationY>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>strCustomErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -122,7 +122,7 @@
         <name>Set_Unexpected_Type_Error</name>
         <label>Set Unexpected Type Error</label>
         <locationX>1106</locationX>
-        <locationY>998</locationY>
+        <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>strCustomErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -139,7 +139,7 @@
         <name>Set_User_Defaults</name>
         <label>Set User Defaults</label>
         <locationX>1898</locationX>
-        <locationY>890</locationY>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>user.ProfileId</assignToReference>
             <operator>Assign</operator>
@@ -190,7 +190,7 @@
         <name>Set_User_Details</name>
         <label>Set User Details</label>
         <locationX>1898</locationX>
-        <locationY>998</locationY>
+        <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>user.ContactId</assignToReference>
             <operator>Assign</operator>
@@ -248,7 +248,7 @@
         <name>Set_User_for_Disabling</name>
         <label>Set User for Disabling</label>
         <locationX>578</locationX>
-        <locationY>1106</locationY>
+        <locationY>1214</locationY>
         <assignmentItems>
             <assignToReference>user.Id</assignToReference>
             <operator>Assign</operator>
@@ -257,17 +257,10 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>user.IsActive</assignToReference>
+            <assignToReference>user.IsPortalEnabled</assignToReference>
             <operator>Assign</operator>
             <value>
                 <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>user.Username</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>strFmlDisabledUserUsername</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -308,7 +301,7 @@
         <name>Check_Action_Type</name>
         <label>Check Action Type</label>
         <locationX>578</locationX>
-        <locationY>890</locationY>
+        <locationY>998</locationY>
         <defaultConnector>
             <targetReference>Set_Unexpected_Type_Error</targetReference>
         </defaultConnector>
@@ -348,7 +341,7 @@
         <name>Check_for_Duplicate_Nickname_Error</name>
         <label>Check for Duplicate Nickname Error</label>
         <locationX>2294</locationX>
-        <locationY>1214</locationY>
+        <locationY>1322</locationY>
         <defaultConnector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Screen</targetReference>
@@ -361,7 +354,7 @@
                 <leftValueReference>$Flow.FaultMessage</leftValueReference>
                 <operator>Contains</operator>
                 <rightValue>
-                    <stringValue>CommunityNickname</stringValue>
+                    <stringValue>DUPLICATE_COMM_NICKNAME</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -371,10 +364,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_for_User_Permission</name>
+        <label>Check for User Permission</label>
+        <locationX>2970</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>Invalid_Access_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>User_Has_Permission</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_Users</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_User</targetReference>
+            </connector>
+            <label>User Has Permission</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Get_Network_Member</name>
         <label>Check Get Network Member</label>
         <locationX>1106</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Set_Error_Network_Member_Not_Found</targetReference>
         </defaultConnector>
@@ -399,7 +417,7 @@
         <name>Check_Get_Profile</name>
         <label>Check Get Profile</label>
         <locationX>2294</locationX>
-        <locationY>782</locationY>
+        <locationY>890</locationY>
         <defaultConnector>
             <targetReference>Set_Error_Profile_Not_Found</targetReference>
         </defaultConnector>
@@ -424,7 +442,7 @@
         <name>Check_Get_Settings</name>
         <label>Check Get Settings</label>
         <locationX>2756</locationX>
-        <locationY>566</locationY>
+        <locationY>674</locationY>
         <defaultConnector>
             <targetReference>Set_Error_Settings_Not_Found</targetReference>
         </defaultConnector>
@@ -449,7 +467,7 @@
         <name>Check_Get_User</name>
         <label>Check Get User</label>
         <locationX>1931</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Enable_User_Screen</targetReference>
         </defaultConnector>
@@ -473,11 +491,6 @@
     <description>Screen Flow for contact record pages. Enable user, reset password or login as the contact&apos;s community user.</description>
     <environments>Default</environments>
     <formulas>
-        <name>strFmlDisabledUserUsername</name>
-        <dataType>String</dataType>
-        <expression>LEFT( &quot;_&quot; &amp; {!Get_User.Username}, 80 )</expression>
-    </formulas>
-    <formulas>
         <name>strFmlLogInAsUserUrl</name>
         <dataType>String</dataType>
         <expression>{!Get_Base_URL.orgBaseUrl} + &quot;/servlet/servlet.su?oid=&quot; + {!$Organization.Id} +
@@ -499,7 +512,7 @@
         <name>strFmlNewUserNicknameDefault</name>
         <dataType>String</dataType>
         <expression>LEFT( 
-  LEFT( {!Input_Username.value}, FIND(&quot;@&quot;, {!Input_Username.value}) ), 
+  LEFT( {!Input_Username.value}, FIND(&quot;@&quot;, {!Input_Username.value}) - 1 ), 
   40
 )</expression>
     </formulas>
@@ -507,7 +520,7 @@
         <name>strFmlNewUserNicknameUnique</name>
         <dataType>String</dataType>
         <expression>LEFT( 
-  LEFT( {!Input_Username.value}, FIND(&quot;@&quot;, {!Input_Username.value}) ) &amp; RIGHT({!$Flow.InterviewGuid}, 10), 
+  LEFT( {!Input_Username.value}, FIND(&quot;@&quot;, {!Input_Username.value}) - 1 ) &amp; RIGHT({!$Flow.InterviewGuid}, 10), 
   40
 )</expression>
     </formulas>
@@ -536,7 +549,7 @@
         <name>Insert_User</name>
         <label>Insert User</label>
         <locationX>1898</locationX>
-        <locationY>1106</locationY>
+        <locationY>1214</locationY>
         <connector>
             <targetReference>Success_Enabling_User_Screen</targetReference>
         </connector>
@@ -549,7 +562,7 @@
         <name>Get_Network_Member</name>
         <label>Get Network Member</label>
         <locationX>1106</locationX>
-        <locationY>350</locationY>
+        <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Get_Network_Member</targetReference>
@@ -570,7 +583,7 @@
         <name>Get_Profile</name>
         <label>Get Profile</label>
         <locationX>2294</locationX>
-        <locationY>674</locationY>
+        <locationY>782</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Get_Profile</targetReference>
@@ -596,7 +609,7 @@
         <name>Get_Settings</name>
         <label>Get Settings</label>
         <locationX>2756</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Get_Settings</targetReference>
@@ -621,7 +634,7 @@
         <name>Get_User</name>
         <label>Get User</label>
         <locationX>1931</locationX>
-        <locationY>134</locationY>
+        <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Get_User</targetReference>
@@ -652,7 +665,7 @@
         <name>Update_User_Disable</name>
         <label>Update User - Disable</label>
         <locationX>578</locationX>
-        <locationY>1214</locationY>
+        <locationY>1322</locationY>
         <connector>
             <targetReference>Success_Disabling_User_Screen</targetReference>
         </connector>
@@ -667,7 +680,7 @@
         <name>Confirm_Disable_User_Screen</name>
         <label>Confirm Disable User Screen</label>
         <locationX>578</locationX>
-        <locationY>998</locationY>
+        <locationY>1106</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -687,7 +700,7 @@
         <name>Confirm_Reset_Password_Screen</name>
         <label>Confirm Reset Password Screen</label>
         <locationX>50</locationX>
-        <locationY>998</locationY>
+        <locationY>1106</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -707,7 +720,7 @@
         <name>Enable_User_Screen</name>
         <label>Enable User Screen</label>
         <locationX>2756</locationX>
-        <locationY>350</locationY>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -794,7 +807,7 @@
         <name>Error_Screen</name>
         <label>Error Screen</label>
         <locationX>3746</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -838,10 +851,26 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
+        <name>Invalid_Access_Screen</name>
+        <label>Invalid Access Screen</label>
+        <locationX>4010</locationX>
+        <locationY>242</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Invalid_Access_Screen_Message</name>
+            <fieldText>&lt;p&gt;{!ttInvalidAccessMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Success_Disabling_User_Screen</name>
         <label>Success Disabling User Screen</label>
         <locationX>578</locationX>
-        <locationY>1322</locationY>
+        <locationY>1430</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -858,7 +887,7 @@
         <name>Success_Enabling_User_Screen</name>
         <label>Success Enabling User Screen</label>
         <locationX>1898</locationX>
-        <locationY>1214</locationY>
+        <locationY>1322</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -875,7 +904,7 @@
         <name>Success_Resetting_Password_Screen</name>
         <label>Success Resetting Password Screen</label>
         <locationX>50</locationX>
-        <locationY>1214</locationY>
+        <locationY>1322</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -892,7 +921,7 @@
         <name>User_Actions_Screen</name>
         <label>User Actions Screen</label>
         <locationX>578</locationX>
-        <locationY>782</locationY>
+        <locationY>890</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -916,7 +945,7 @@
         <name>User_Details_Screen</name>
         <label>User Details Screen</label>
         <locationX>578</locationX>
-        <locationY>674</locationY>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -994,11 +1023,6 @@
             <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
-            <name>Login_URL_Display</name>
-            <fieldText>&lt;p&gt;{!strFmlLogInAsUserUrl}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
             <name>LoginAsUserButton</name>
             <extensionName>c:flowNavigationButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
@@ -1035,7 +1059,7 @@
             <inputParameters>
                 <name>url</name>
                 <value>
-                    <stringValue>https://www.mets.com</stringValue>
+                    <elementReference>strFmlLogInAsUserUrl</elementReference>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1047,10 +1071,10 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>1805</locationX>
+        <locationX>2844</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_User</targetReference>
+            <targetReference>Check_for_User_Permission</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -1083,6 +1107,11 @@
         <name>ttErrorUnexpectedTypeMessage</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>The {!Input_Action_Type} user action is not supported.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ttInvalidAccessMessage</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;You do not have access to manage community users.&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>ttSuccessDisablingUserMessage</name>
