@@ -21,10 +21,9 @@ public class CommunityUser {
     /**
      * Properties for logging in as user
      */
-
     @AuraEnabled
     public Id networkId {get;private set;}
-
+    
     @AuraEnabled
     public String logInAsUrl {get;private set;}
 

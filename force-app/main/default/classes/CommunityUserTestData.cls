@@ -8,7 +8,6 @@ public class CommunityUserTestData {
         insert contact;
         
         Community_User_Setting__mdt settings = Community_User_Setting__mdt.getInstance('Default');
-        // Set<String> communityUserTypes = new Set<String>{'CspLitePortal','PowerCustomerSuccess','PowerPartner'};
         Profile communityProfile = [SELECT Id FROM Profile WHERE Name = :settings.Profile_Name__c LIMIT 1];
         
         User u = new User(
