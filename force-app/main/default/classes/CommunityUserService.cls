@@ -52,10 +52,6 @@ public with sharing class CommunityUserService {
         } else {
             Boolean hasCommunityNicknameError = false;
             for (Database.Error err : sr.getErrors()) {
-                System.debug('The following error has occurred.');                    
-                System.debug(err.getStatusCode() + ': ' + err.getMessage());
-                System.debug('Fields that affected this error: ' + err.getFields());
-
                 if (err.getFields().contains('CommunityNickname')) {
                     u.CommunityNickname = (u.CommunityNickname + System.Now().getTime()).left(40);
                     hasCommunityNicknameError = true;

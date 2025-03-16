@@ -8,6 +8,8 @@ import getCommunityUser from '@salesforce/apex/ManageCommunityUserController.get
 import resetPassword from '@salesforce/apex/ManageCommunityUserController.resetPassword';
 import disableUser from '@salesforce/apex/ManageCommunityUserController.disableUser';
 import enableUser from '@salesforce/apex/ManageCommunityUserController.enableUser';
+import userCanManageCommunityUsers from '@salesforce/customPermission/Manage_Community_Users';
+
 import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
 import FIRSTNAME_FIELD from '@salesforce/schema/Contact.FirstName';
 import LASTNAME_FIELD from '@salesforce/schema/Contact.LastName';
@@ -27,6 +29,10 @@ export default class ManageCommunityUser extends LightningElement {
     lastName;
     wiredCommunityUser = [];
     communityUser;
+
+    get userHasComponentAccess() {
+        return userCanManageCommunityUsers;
+    }
 
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
     wiredRecord({ error, data }) {
@@ -131,7 +137,7 @@ export default class ManageCommunityUser extends LightningElement {
                 setTimeout(() => {
                     this.refreshComponent();
                     this.isLoading = false;
-                }, 10000);
+                }, 5000);
             })
             .catch((error) => {
                 this.isLoading = false;

@@ -1,24 +1,28 @@
 <template>
-    <lightning-card title={cardTitle} icon-name={cardIconName}>
+    <lightning-card lwc:if={userHasComponentAccess} title={cardTitle} icon-name={cardIconName}>
 
         <template lwc:if={isLoading}>
             <lightning-spinner size="small" alternative-text="Loading..." title="Loading..."></lightning-spinner>
         </template>
 
         <!-- BUTTON ACTIONS -->
-        <div slot="actions">
+        <div slot="footer">
             <!-- HAS USER -->
             <template lwc:if={communityUser}>
                 <lightning-button-group>
                     <lightning-button
                         label="Log In As User"
                         title="Log in to Experience as User"
+                        icon-name="utility:new_window"
+                        icon-position="left"
                         onclick={handleLogInAsUser}
                     ></lightning-button>
 
                     <lightning-button
                         label="Reset Password"
                         title="Reset Password"
+                        icon-name="action:password_unlock"
+                        icon-position="left"
                         onclick={handleResetPassword}
                     ></lightning-button>
 
@@ -26,6 +30,8 @@
                         variant="destructive-text"
                         label="Disable User"
                         title="Disable Customer User"
+                        icon-name="action:delete"
+                        icon-position="left"
                         onclick={handleDisableUser}
                     ></lightning-button>
                 </lightning-button-group>
@@ -35,6 +41,7 @@
             <!-- USER NOT FOUND -->
             <template lwc:else>
                 <lightning-button
+                    variant="brand"
                     label="Enable User"
                     title="Enable Customer User"
                     onclick={handleEnableUser}
