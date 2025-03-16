@@ -10,13 +10,11 @@ private class CommunityUserService_Test {
     
     @IsTest
     static void testResetPassword() {
-        User testUser = [SELECT Id FROM User WHERE Username = :USERNAME LIMIT 1];
-
         User runningUser = CommunityUserTestData.getRunningUser();
 
         Test.startTest();
         System.runAs(runningUser) {
-            new CommunityUserService().resetPassword(testUser.Id);
+            new CommunityUserService().resetPassword(UserInfo.getUserId());
         }
         Test.stopTest();
         

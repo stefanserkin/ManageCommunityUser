@@ -108,7 +108,8 @@ public with sharing class CommunityUserService {
         }
 
         NetworkMember networkMember = getNetworkMember(u.Id);
-        CommunityUser communityUser = new CommunityUser(u, networkMember.NetworkId);
+        Id networkId = networkMember != null ? networkMember.NetworkId : null;
+        CommunityUser communityUser = new CommunityUser(u, networkId);
         return communityUser;
     }
 

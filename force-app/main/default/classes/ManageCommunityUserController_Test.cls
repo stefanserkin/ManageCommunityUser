@@ -61,14 +61,14 @@ private class ManageCommunityUserController_Test {
 
     @IsTest
     static void testResetPassword() {
-        User testUser = [SELECT Id FROM User WHERE Username = :USERNAME LIMIT 1];
+        // User testUser = [SELECT Id FROM User WHERE Username = :USERNAME LIMIT 1];
 
         User runningUser = CommunityUserTestData.getRunningUser();
 
         ManageCommunityUserController.Result result;
         Test.startTest();
         System.runAs(runningUser) {
-            result = ManageCommunityUserController.resetPassword(testUser.Id);
+            result = ManageCommunityUserController.resetPassword(UserInfo.getUserId());
         }
         Test.stopTest();
 
