@@ -3,11 +3,15 @@
     <label>Default</label>
     <protected>false</protected>
     <values>
+        <field>Email_Encoding_Key__c</field>
+        <value xsi:type="xsd:string">ISO-8859-1</value>
+    </values>
+    <values>
         <field>Profile_Name__c</field>
-        <value xsi:type="xsd:string">My Community Profile</value>
+        <value xsi:type="xsd:string">Custom Portal User</value>
     </values>
     <values>
         <field>Site_URL__c</field>
-        <value xsi:type="xsd:string">https://community.mysite.com</value>
+        <value xsi:type="xsd:string">https://flow-customization-2008-dev-ed.scratch.my.site.com</value>
     </values>
 </CustomMetadata>
