@@ -5,7 +5,46 @@
             <lightning-spinner size="small" alternative-text="Loading..." title="Loading..."></lightning-spinner>
         </template>
 
-        <!-- BUTTON ACTIONS -->
+        <!-- BODY - HAS USER -->
+        <template lwc:if={communityUser}>
+            <div class="slds-p-around_medium slds-box slds-theme_shade slds-m-around_small">
+                <div class="slds-grid slds-gutters slds-wrap">
+                    
+                    <!-- Username -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <p class="slds-m-bottom_x-small">
+                            <lightning-icon icon-name="utility:user" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                            <strong>Username:</strong>&nbsp;<span class="slds-text-color_default">{communityUser.username}</span>
+                        </p>
+                    </div>
+
+                    <!-- Created Date -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <p class="slds-m-bottom_x-small">
+                            <lightning-icon icon-name="utility:event" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                            <strong>Created:</strong>&nbsp;
+                            <lightning-formatted-date-time value={communityUser.createdDate} 
+                                year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit">
+                            </lightning-formatted-date-time>
+                        </p>
+                    </div>
+    
+                    <!-- Last Login -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <p class="slds-m-bottom_x-small">
+                            <lightning-icon icon-name="utility:clock" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                            <strong>Last Login:</strong>&nbsp;
+                            <lightning-formatted-date-time value={communityUser.lastLoginDate} 
+                                year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit">
+                            </lightning-formatted-date-time>
+                        </p>
+                    </div>
+    
+                </div>
+            </div>
+        </template>
+
+        <!-- FOOTER BUTTON ACTIONS -->
         <div slot="footer">
             <!-- HAS USER -->
             <template lwc:if={communityUser}>
@@ -37,7 +76,6 @@
                 </lightning-button-group>
             </template>
 
-
             <!-- USER NOT FOUND -->
             <template lwc:else>
                 <lightning-button
@@ -49,11 +87,5 @@
             </template>
         </div>
 
-        <!-- HAS USER -->
-        <template lwc:if={communityUser}>
-            <p class="slds-var-m-around_medium">Has User!</p>
-            <p class="slds-var-m-around_medium">Record Id: {recordId}</p>
-            <p class="slds-var-m-around_medium">Email: {contactEmail}</p>
-        </template>
     </lightning-card>
 </template>
