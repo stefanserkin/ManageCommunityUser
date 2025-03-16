@@ -1,0 +1,11 @@
+<template>
+    <lightning-modal-header label="Enable Customer User"></lightning-modal-header>
+    <lightning-modal-body>
+        <lightning-input type="text" label="Username" value={username} onchange={handleUsernameChange}></lightning-input>
+        <lightning-input type="email" label="Email" value={email} onchange={handleEmailChange}></lightning-input>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+        <lightning-button variant="brand" label="Enable" onclick={handleEnable} class="slds-var-m-left_x-small"></lightning-button>
+    </lightning-modal-footer>
+</template>

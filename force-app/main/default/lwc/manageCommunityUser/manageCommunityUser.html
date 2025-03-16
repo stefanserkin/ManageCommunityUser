@@ -1,0 +1,52 @@
+<template>
+    <lightning-card title={cardTitle} icon-name={cardIconName}>
+
+        <template lwc:if={isLoading}>
+            <lightning-spinner size="small" alternative-text="Loading..." title="Loading..."></lightning-spinner>
+        </template>
+
+        <!-- BUTTON ACTIONS -->
+        <div slot="actions">
+            <!-- HAS USER -->
+            <template lwc:if={communityUser}>
+                <lightning-button-group>
+                    <lightning-button
+                        label="Log In As User"
+                        title="Log in to Experience as User"
+                        onclick={handleLogInAsUser}
+                    ></lightning-button>
+
+                    <lightning-button
+                        label="Reset Password"
+                        title="Reset Password"
+                        onclick={handleResetPassword}
+                    ></lightning-button>
+
+                    <lightning-button
+                        variant="destructive-text"
+                        label="Disable User"
+                        title="Disable Customer User"
+                        onclick={handleDisableUser}
+                    ></lightning-button>
+                </lightning-button-group>
+            </template>
+
+
+            <!-- USER NOT FOUND -->
+            <template lwc:else>
+                <lightning-button
+                    label="Enable User"
+                    title="Enable Customer User"
+                    onclick={handleEnableUser}
+                ></lightning-button>
+            </template>
+        </div>
+
+        <!-- HAS USER -->
+        <template lwc:if={communityUser}>
+            <p class="slds-var-m-around_medium">Has User!</p>
+            <p class="slds-var-m-around_medium">Record Id: {recordId}</p>
+            <p class="slds-var-m-around_medium">Email: {contactEmail}</p>
+        </template>
+    </lightning-card>
+</template>
