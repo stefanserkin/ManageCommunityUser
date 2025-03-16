@@ -179,7 +179,7 @@ export default class ManageCommunityUser extends LightningElement {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Success',
-                    message: 'User successfully created!',
+                    message: `User successfully created!`,
                     variant: 'success'
                 })
             );
