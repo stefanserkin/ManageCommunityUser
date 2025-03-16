@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Email_Encoding_Key__c</fullName>
     <description>The Email Encoding Key to apply to new community users</description>
-    <fieldManageability>DeveloperControlled</fieldManageability>
+    <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>The Email Encoding Key to apply to new community users</inlineHelpText>
     <label>Email Encoding Key</label>
     <required>false</required>
