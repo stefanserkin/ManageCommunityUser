@@ -8,7 +8,13 @@ import getCommunityUser from '@salesforce/apex/ManageCommunityUserController.get
 import resetPassword from '@salesforce/apex/ManageCommunityUserController.resetPassword';
 import disableUser from '@salesforce/apex/ManageCommunityUserController.disableUser';
 import enableUser from '@salesforce/apex/ManageCommunityUserController.enableUser';
-import userCanManageCommunityUsers from '@salesforce/customPermission/Manage_Community_Users';
+// import userCanManageCommunityUsers from '@salesforce/customPermission/Manage_Community_Users';
+
+import userCanView from '@salesforce/customPermission/Manage_Community_User_View_Only';
+import userCanResetPassword from '@salesforce/customPermission/Manage_Community_User_Reset_Password';
+import userCanLogInAsUser from '@salesforce/customPermission/Manage_Community_User_Log_in_as_User';
+import userCanDisableUser from '@salesforce/customPermission/Manage_Community_User_Disable_User';
+import userCanEnableUser from '@salesforce/customPermission/Manage_Community_User_Enable_User';
 
 import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
 import FIRSTNAME_FIELD from '@salesforce/schema/Contact.FirstName';
@@ -18,7 +24,7 @@ const FIELDS = [EMAIL_FIELD, FIRSTNAME_FIELD, LASTNAME_FIELD];
 
 export default class ManageCommunityUser extends LightningElement {
     @api cardTitle = 'Manage Community User';
-    @api cardIconName = 'standard:portal';
+    @api cardIconName = 'standard:user';
     @api recordId;
     error;
     isLoading = false;
@@ -27,11 +33,17 @@ export default class ManageCommunityUser extends LightningElement {
     contactEmail;
     firstName;
     lastName;
+
+    hasEvaluatedCommunityUser = false;
     wiredCommunityUser = [];
     communityUser;
 
     get userHasComponentAccess() {
         return userCanManageCommunityUsers;
+    }
+
+    get showEnableUserButton() {
+        return this.hasEvaluatedCommunityUser && !this.communityUser;
     }
 
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
@@ -49,6 +61,10 @@ export default class ManageCommunityUser extends LightningElement {
 
     @wire(getCommunityUser, { contactId: '$recordId' })
     wiredUserResult(result) {
+        if (!this.recordId) {
+            return;
+        }
+
         this.isLoading = true;
         this.wiredCommunityUser = result;
 
@@ -60,6 +76,7 @@ export default class ManageCommunityUser extends LightningElement {
             this.handleError(this.error);
         }
         this.isLoading = false;
+        this.hasEvaluatedCommunityUser = true;
     }
 
     /*************************************************
@@ -137,7 +154,7 @@ export default class ManageCommunityUser extends LightningElement {
                 setTimeout(() => {
                     this.refreshComponent();
                     this.isLoading = false;
-                }, 5000);
+                }, 4000);
             })
             .catch((error) => {
                 this.isLoading = false;

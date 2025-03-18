@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>View the Manage Community User component, but no actions are available</description>
+    <isLicensed>false</isLicensed>
+    <label>Manage Community User: View Only</label>
+</CustomPermission>

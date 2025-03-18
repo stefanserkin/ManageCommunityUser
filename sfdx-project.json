@@ -1,8 +1,8 @@
 {
   "packageDirectories": [
     {
-      "versionName": "ver 0.2",
-      "versionNumber": "0.2.0.NEXT",
+      "versionName": "ver 0.4",
+      "versionNumber": "0.4.0.NEXT",
       "path": "force-app",
       "default": true,
       "definitionFile": "config/project-scratch-def.json",
@@ -20,6 +20,7 @@
     "Manage Community User@0.1.0-2": "04tPg0000008aj3IAA",
     "Manage Community User@0.2.0-1": "04tPg0000008bATIAY",
     "Manage Community User@0.2.0-2": "04tPg0000008bC5IAI",
-    "Manage Community User@0.2.0-3": "04tPg0000008bDhIAI"
+    "Manage Community User@0.2.0-3": "04tPg0000008bDhIAI",
+    "Manage Community User@0.3.0-1": "04tPg0000008bGvIAI"
   }
 }

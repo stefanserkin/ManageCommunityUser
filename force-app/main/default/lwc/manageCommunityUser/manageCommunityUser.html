@@ -77,7 +77,7 @@
             </template>
 
             <!-- USER NOT FOUND -->
-            <template lwc:else>
+            <template lwc:elseif={showEnableUserButton}>
                 <lightning-button
                     variant="brand"
                     label="Enable User"

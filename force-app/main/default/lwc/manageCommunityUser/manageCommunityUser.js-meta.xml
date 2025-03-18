@@ -11,6 +11,21 @@
             <objects>
                 <object>Contact</object>
             </objects>
+            <property
+                name="cardTitle"
+                label="Component Title"
+                type="String"
+                default="Manage Community User"
+                required="true"
+            />
+            <property 
+                name="cardIconName"
+                label="Component Title SLDS Icon Name" 
+                type="String"
+                default="standard:user"
+                description="Use icon names in the SLDS library"
+                required="true"
+            />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
