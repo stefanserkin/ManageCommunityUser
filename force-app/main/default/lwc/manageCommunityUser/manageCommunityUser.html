@@ -45,6 +45,11 @@
             </div>
         </template>
 
+        <!-- BODY - NO ACTIVE USER -->
+        <template lwc:else>
+            <p class="slds-var-m-around_medium">This contact does not have an active community user.</p>
+        </template>
+
         <!-- FOOTER BUTTON ACTIONS -->
         <div slot="footer">
             <!-- HAS USER -->
