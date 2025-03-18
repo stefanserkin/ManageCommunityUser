@@ -43,11 +43,11 @@ public class CommunityUser {
         this.networkId = networkId;
 
         // Set logInAsUrl
-        String url = System.URL.getOrgDomainUrl().toExternalForm() + '/servlet/servlet.su';
-        url += '?oid=' + UserInfo.getOrganizationId();
-        url += '&retURL=%2F' + contactId;
-        url += '&sunetworkid=' + networkId;
-        url += '&sunetworkuserid=' + userId;
+        String url = System.URL.getOrgDomainUrl().toExternalForm() + '/servlet/servlet.su' +
+                     '?oid=' + UserInfo.getOrganizationId() + 
+                     '&retURL=%2F' + contactId +
+                     '&sunetworkid=' + networkId +
+                     '&sunetworkuserid=' + userId;
         this.logInAsUrl = url;
     }
 
