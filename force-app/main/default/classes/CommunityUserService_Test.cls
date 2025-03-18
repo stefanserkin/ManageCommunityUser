@@ -106,6 +106,41 @@ private class CommunityUserService_Test {
     }
 
     @IsTest
+    static void testEnableUserWithDuplicateUsername() {
+        User runningUser = CommunityUserTestData.getRunningUser();
+        Id newUserId;
+        Account acc;
+        Contact ct;
+        String newUsername;
+        
+        
+        Test.startTest();
+        System.runAs(runningUser) {
+            acc = new Account(Name = 'New Account');
+            insert acc;
+            ct = new Contact(AccountId = acc.Id, FirstName = 'Newaccount', LastName = 'Please', Email = USERNAME);
+            insert ct;
+    
+            ManageCommunityUserController.EnableUserRequest request = new ManageCommunityUserController.EnableUserRequest();
+            request.username = ct.Email;
+            request.email = ct.Email;
+            request.contactId = ct.Id;
+            request.FirstName = ct.FirstName;
+            request.LastName = ct.LastName;
+    
+            CommunityUserService service = new CommunityUserService();
+
+            try {
+                newUserId = service.enableUser(request);
+                System.Assert.fail('Should have received an exception for the duplicate username');
+            } catch (Exception e) {
+                System.Assert.isNotNull(e.getMessage(), 'Received a null exception');
+            }
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
     static void testGetCommunityUser() {
         Contact testContact = [SELECT Id FROM Contact WHERE Email = :USERNAME LIMIT 1];
         User testUser = [SELECT Id FROM User WHERE ContactId = :testContact.Id LIMIT 1];

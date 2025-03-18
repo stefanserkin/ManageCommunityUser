@@ -1,4 +1,4 @@
-public with sharing class CommunityUserService {
+public without sharing class CommunityUserService {
 
     public class CommunityUserServiceException extends Exception {}
 
