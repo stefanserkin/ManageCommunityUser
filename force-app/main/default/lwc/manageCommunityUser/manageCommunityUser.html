@@ -1,6 +1,7 @@
 <template>
-    <lightning-card lwc:if={userHasComponentAccess} title={cardTitle} icon-name={cardIconName}>
+    <lightning-card lwc:if={userCanViewComponent} title={cardTitle} icon-name={cardIconName}>
 
+        <!-- SPINNER ON LOAD -->
         <template lwc:if={isLoading}>
             <lightning-spinner size="small" alternative-text="Loading..." title="Loading..."></lightning-spinner>
         </template>
@@ -19,7 +20,7 @@
                     </div>
 
                     <!-- Created Date -->
-                    <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-col slds-size_1-of-1">
                         <p class="slds-m-bottom_x-small">
                             <lightning-icon icon-name="utility:event" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
                             <strong>Created:</strong>&nbsp;
@@ -30,7 +31,7 @@
                     </div>
     
                     <!-- Last Login -->
-                    <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-col slds-size_1-of-1">
                         <p class="slds-m-bottom_x-small">
                             <lightning-icon icon-name="utility:clock" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
                             <strong>Last Login:</strong>&nbsp;
@@ -49,7 +50,7 @@
             <!-- HAS USER -->
             <template lwc:if={communityUser}>
                 <lightning-button-group>
-                    <lightning-button
+                    <lightning-button lwc:if={userCanLogInAsUser}
                         label="Log In As User"
                         title="Log in to Experience as User"
                         icon-name="utility:new_window"
@@ -57,7 +58,7 @@
                         onclick={handleLogInAsUser}
                     ></lightning-button>
 
-                    <lightning-button
+                    <lightning-button lwc:if={userCanResetPassword}
                         label="Reset Password"
                         title="Reset Password"
                         icon-name="action:password_unlock"
@@ -65,7 +66,7 @@
                         onclick={handleResetPassword}
                     ></lightning-button>
 
-                    <lightning-button
+                    <lightning-button lwc:if={userCanDisableUser}
                         variant="destructive-text"
                         label="Disable User"
                         title="Disable Customer User"

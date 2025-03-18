@@ -8,13 +8,12 @@ import getCommunityUser from '@salesforce/apex/ManageCommunityUserController.get
 import resetPassword from '@salesforce/apex/ManageCommunityUserController.resetPassword';
 import disableUser from '@salesforce/apex/ManageCommunityUserController.disableUser';
 import enableUser from '@salesforce/apex/ManageCommunityUserController.enableUser';
-// import userCanManageCommunityUsers from '@salesforce/customPermission/Manage_Community_Users';
 
-import userCanView from '@salesforce/customPermission/Manage_Community_User_View_Only';
-import userCanResetPassword from '@salesforce/customPermission/Manage_Community_User_Reset_Password';
-import userCanLogInAsUser from '@salesforce/customPermission/Manage_Community_User_Log_in_as_User';
-import userCanDisableUser from '@salesforce/customPermission/Manage_Community_User_Disable_User';
-import userCanEnableUser from '@salesforce/customPermission/Manage_Community_User_Enable_User';
+import canView from '@salesforce/customPermission/Manage_Community_User_View_Only';
+import canResetPassword from '@salesforce/customPermission/Manage_Community_User_Reset_Password';
+import canLogInAsUser from '@salesforce/customPermission/Manage_Community_User_Log_in_as_User';
+import canDisableUser from '@salesforce/customPermission/Manage_Community_User_Disable_User';
+import canEnableUser from '@salesforce/customPermission/Manage_Community_User_Enable_User';
 
 import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
 import FIRSTNAME_FIELD from '@salesforce/schema/Contact.FirstName';
@@ -26,6 +25,7 @@ export default class ManageCommunityUser extends LightningElement {
     @api cardTitle = 'Manage Community User';
     @api cardIconName = 'standard:user';
     @api recordId;
+
     error;
     isLoading = false;
 
@@ -38,13 +38,37 @@ export default class ManageCommunityUser extends LightningElement {
     wiredCommunityUser = [];
     communityUser;
 
-    get userHasComponentAccess() {
-        return userCanManageCommunityUsers;
+    /*************************************************
+     * User Permissions
+     *************************************************/
+
+    get userCanViewComponent() {
+        return canView || canResetPassword || canLogInAsUser || canDisableUser || canEnableUser;
+    }
+
+    get userCanResetPassword() {
+        return canResetPassword;
+    }
+
+    get userCanLogInAsUser() {
+        return canLogInAsUser;
+    }
+
+    get userCanDisableUser() {
+        return canDisableUser;
+    }
+
+    get userCanEnableUser() {
+        return canEnableUser;
     }
 
     get showEnableUserButton() {
-        return this.hasEvaluatedCommunityUser && !this.communityUser;
+        return this.hasEvaluatedCommunityUser && !this.communityUser && this.userCanEnableUser;
     }
+
+    /*************************************************
+     * Wired data - Contact and Community User
+     *************************************************/
 
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
     wiredRecord({ error, data }) {
@@ -67,7 +91,7 @@ export default class ManageCommunityUser extends LightningElement {
 
         this.isLoading = true;
         this.wiredCommunityUser = result;
-
+        
         if (result.data) {
             this.communityUser = result.data;
         } else if (result.error) {
