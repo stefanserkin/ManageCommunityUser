@@ -508,6 +508,7 @@
         <object>Community_User_Setting__mdt</object>
         <queriedFields>Id</queriedFields>
         <queriedFields>Profile_Name__c</queriedFields>
+        <queriedFields>Email_Encoding_Key__c</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>

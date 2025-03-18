@@ -3,12 +3,12 @@
     <actionCalls>
         <name>Get_Base_URL</name>
         <label>Get Base URL</label>
-        <locationX>314</locationX>
+        <locationX>710</locationX>
         <locationY>674</locationY>
         <actionName>FlowGetOrgBaseUrl</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>User_Details_Screen</targetReference>
+            <targetReference>Check_User_Action_Access</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -22,8 +22,8 @@
     <actionCalls>
         <name>Reset_User_Password</name>
         <label>Reset User Password</label>
-        <locationX>50</locationX>
-        <locationY>1346</locationY>
+        <locationX>974</locationX>
+        <locationY>2162</locationY>
         <actionName>FlowResetPassword</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -53,7 +53,7 @@
     <assignments>
         <name>Disable_Login_Button</name>
         <label>Disable Login Button</label>
-        <locationX>842</locationX>
+        <locationX>1238</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>loginAsUserIsDisabled</assignToReference>
@@ -63,14 +63,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>User_Details_Screen</targetReference>
+            <targetReference>Check_User_Action_Access</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Set_Error_to_Enable_Result</name>
         <label>Set Error to Enable Result</label>
-        <locationX>1634</locationX>
-        <locationY>782</locationY>
+        <locationX>2602</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>strCustomErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -86,8 +86,8 @@
     <assignments>
         <name>Set_Unexpected_Type_Error</name>
         <label>Set Unexpected Type Error</label>
-        <locationX>1106</locationX>
-        <locationY>1238</locationY>
+        <locationX>754</locationX>
+        <locationY>1346</locationY>
         <assignmentItems>
             <assignToReference>strCustomErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -103,8 +103,8 @@
     <assignments>
         <name>Set_User_for_Disabling</name>
         <label>Set User for Disabling</label>
-        <locationX>578</locationX>
-        <locationY>1346</locationY>
+        <locationX>50</locationX>
+        <locationY>1454</locationY>
         <assignmentItems>
             <assignToReference>user.Id</assignToReference>
             <operator>Assign</operator>
@@ -142,27 +142,12 @@
     <decisions>
         <name>Check_Action_Type</name>
         <label>Check Action Type</label>
-        <locationX>578</locationX>
-        <locationY>1130</locationY>
+        <locationX>402</locationX>
+        <locationY>1238</locationY>
         <defaultConnector>
             <targetReference>Set_Unexpected_Type_Error</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Unexpected Type</defaultConnectorLabel>
-        <rules>
-            <name>Is_Reset_Password</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Input_Action_Type</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>choiceActionResetPassword</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Confirm_Reset_Password_Screen</targetReference>
-            </connector>
-            <label>Is Reset Password</label>
-        </rules>
         <rules>
             <name>Is_Disable_User</name>
             <conditionLogic>and</conditionLogic>
@@ -178,21 +163,64 @@
             </connector>
             <label>Is Disable User</label>
         </rules>
+        <rules>
+            <name>Is_Reset_Password</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Input_Action_Type</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>choiceActionResetPassword</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Confirm_Reset_Password_Screen</targetReference>
+            </connector>
+            <label>Is Reset Password</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Check_for_User_Permission</name>
         <label>Check for User Permission</label>
-        <locationX>1601</locationX>
+        <locationX>2607</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>Invalid_Access_Screen</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>No Access</defaultConnectorLabel>
         <rules>
             <name>User_Has_Permission</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
-                <leftValueReference>$Permission.Manage_Community_Users</leftValueReference>
+                <leftValueReference>$Permission.Manage_Community_User_View_Only</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Reset_Password</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Log_in_as_User</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Disable_User</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Enable_User</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -208,7 +236,7 @@
         <description>Check if the running user is a member of the community. Otherwise, disable log in as user button and no need to fetch the url.</description>
         <name>Check_Get_Network_Member</name>
         <label>Check Get Network Member</label>
-        <locationX>578</locationX>
+        <locationX>974</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Disable_Login_Button</targetReference>
@@ -233,10 +261,10 @@
     <decisions>
         <name>Check_Get_User</name>
         <label>Check Get User</label>
-        <locationX>1040</locationX>
+        <locationX>1821</locationX>
         <locationY>350</locationY>
         <defaultConnector>
-            <targetReference>Enable_User_Screen</targetReference>
+            <targetReference>Check_User_Enable_Access</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Community User Not Found</defaultConnectorLabel>
         <rules>
@@ -258,8 +286,8 @@
     <decisions>
         <name>Check_Result</name>
         <label>Check Result</label>
-        <locationX>1502</locationX>
-        <locationY>674</locationY>
+        <locationX>2470</locationX>
+        <locationY>782</locationY>
         <defaultConnector>
             <targetReference>Set_Error_to_Enable_Result</targetReference>
         </defaultConnector>
@@ -280,8 +308,100 @@
             <label>Is Success</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Check_User_Action_Access</name>
+        <label>Check User Action Access</label>
+        <locationX>974</locationX>
+        <locationY>914</locationY>
+        <defaultConnector>
+            <targetReference>User_Details_Screen_View_Only</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>View Only</defaultConnectorLabel>
+        <rules>
+            <name>Has_All_Actions</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Reset_Password</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Disable_User</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>User_Details_Screen</targetReference>
+            </connector>
+            <label>Has All Actions</label>
+        </rules>
+        <rules>
+            <name>Has_Reset_Password</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Reset_Password</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>User_Details_Screen_Reset</targetReference>
+            </connector>
+            <label>Has Reset Password</label>
+        </rules>
+        <rules>
+            <name>Has_Disable_User</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Disable_User</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>User_Details_Screen_Disable</targetReference>
+            </connector>
+            <label>Has Disable User</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_User_Enable_Access</name>
+        <label>Check User Enable Access</label>
+        <locationX>2668</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>No_Enable_Access_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Access</defaultConnectorLabel>
+        <rules>
+            <name>Has_Enable_Access</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.Manage_Community_User_Enable_User</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Enable_User_Screen</targetReference>
+            </connector>
+            <label>Has Enable Access</label>
+        </rules>
+    </decisions>
     <description>Screen Flow for contact record pages. Enable user, reset password or login as the contact&apos;s community user.</description>
     <environments>Default</environments>
+    <formulas>
+        <name>boolFmlUserCanLogInAsUser</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Permission.Manage_Community_User_Log_in_as_User}</expression>
+    </formulas>
     <formulas>
         <name>strFmlLogInAsUserUrl</name>
         <dataType>String</dataType>
@@ -320,12 +440,16 @@
     <recordLookups>
         <name>Get_Network_Member</name>
         <label>Get Network Member</label>
-        <locationX>578</locationX>
+        <locationX>974</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Get_Network_Member</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>MemberId</field>
@@ -341,7 +465,7 @@
     <recordLookups>
         <name>Get_User</name>
         <label>Get User</label>
-        <locationX>1040</locationX>
+        <locationX>1821</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -372,8 +496,8 @@
     <recordUpdates>
         <name>Update_User_Disable</name>
         <label>Update User - Disable</label>
-        <locationX>578</locationX>
-        <locationY>1454</locationY>
+        <locationX>50</locationX>
+        <locationY>1562</locationY>
         <connector>
             <targetReference>Success_Disabling_User_Screen</targetReference>
         </connector>
@@ -387,8 +511,8 @@
     <screens>
         <name>Confirm_Disable_User_Screen</name>
         <label>Confirm Disable User Screen</label>
-        <locationX>578</locationX>
-        <locationY>1238</locationY>
+        <locationX>50</locationX>
+        <locationY>1346</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -407,8 +531,8 @@
     <screens>
         <name>Confirm_Reset_Password_Screen</name>
         <label>Confirm Reset Password Screen</label>
-        <locationX>50</locationX>
-        <locationY>1238</locationY>
+        <locationX>974</locationX>
+        <locationY>2054</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -427,8 +551,8 @@
     <screens>
         <name>Enable_User_Screen</name>
         <label>Enable User Screen</label>
-        <locationX>1502</locationX>
-        <locationY>458</locationY>
+        <locationX>2470</locationX>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -514,7 +638,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>1898</locationX>
+        <locationX>3130</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -561,7 +685,7 @@
     <screens>
         <name>Invalid_Access_Screen</name>
         <label>Invalid Access Screen</label>
-        <locationX>2162</locationX>
+        <locationX>3394</locationX>
         <locationY>242</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -575,10 +699,26 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
+        <name>No_Enable_Access_Screen</name>
+        <label>No Enable Access Screen</label>
+        <locationX>2866</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>No_Enable_Access_Screen_Message</name>
+            <fieldText>&lt;p&gt;This contact does not have an active community user.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Success_Disabling_User_Screen</name>
         <label>Success Disabling User Screen</label>
-        <locationX>578</locationX>
-        <locationY>1562</locationY>
+        <locationX>50</locationX>
+        <locationY>1670</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -594,8 +734,8 @@
     <screens>
         <name>Success_Enabling_User_Screen</name>
         <label>Success Enabling User Screen</label>
-        <locationX>1370</locationX>
-        <locationY>782</locationY>
+        <locationX>2338</locationX>
+        <locationY>890</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -611,8 +751,8 @@
     <screens>
         <name>Success_Resetting_Password_Screen</name>
         <label>Success Resetting Password Screen</label>
-        <locationX>50</locationX>
-        <locationY>1454</locationY>
+        <locationX>974</locationX>
+        <locationY>2270</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -628,8 +768,8 @@
     <screens>
         <name>User_Actions_Screen</name>
         <label>User Actions Screen</label>
-        <locationX>578</locationX>
-        <locationY>1022</locationY>
+        <locationX>402</locationX>
+        <locationY>1130</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -652,8 +792,8 @@
     <screens>
         <name>User_Details_Screen</name>
         <label>User Details Screen</label>
-        <locationX>578</locationX>
-        <locationY>914</locationY>
+        <locationX>402</locationX>
+        <locationY>1022</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -779,13 +919,456 @@
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>1</conditionLogic>
+                <conditions>
+                    <leftValueReference>boolFmlUserCanLogInAsUser</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <nextOrFinishButtonLabel>User Actions</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
+    <screens>
+        <name>User_Details_Screen_Disable</name>
+        <label>User Details Screen - Disable</label>
+        <locationX>1282</locationX>
+        <locationY>1022</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Confirm_Disable_User_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>Copy_2_of_Output_Username</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>Get_User.Username</elementReference>
+            </defaultValue>
+            <fieldText>Username</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isReadOnly>
+                <booleanValue>true</booleanValue>
+            </isReadOnly>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>User_Details_Screen_Disable_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>User_Details_Screen_Disable_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Copy_2_of_Output_User_Created_Date</name>
+                    <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Get_User.CreatedDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Created Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isReadOnly>
+                        <booleanValue>true</booleanValue>
+                    </isReadOnly>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>User_Details_Screen_Disable_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Copy_2_of_Output_Last_Login</name>
+                    <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Get_User.LastLoginDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Last Login</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isReadOnly>
+                        <booleanValue>true</booleanValue>
+                    </isReadOnly>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Copy_2_of_LoginAsUserButton</name>
+            <extensionName>c:flowNavigationButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>variant</name>
+                <value>
+                    <stringValue>brand-outline</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>disabled</name>
+                <value>
+                    <elementReference>loginAsUserIsDisabled</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>iconName</name>
+                <value>
+                    <stringValue>utility:new_window</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Log in to Experience as User</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>openInNewTab</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>url</name>
+                <value>
+                    <elementReference>strFmlLogInAsUserUrl</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>disabledTooltip</name>
+                <value>
+                    <elementReference>ttLoginAsUserDisabledTooltipMessage</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>1</conditionLogic>
+                <conditions>
+                    <leftValueReference>boolFmlUserCanLogInAsUser</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <nextOrFinishButtonLabel>Disable User</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>User_Details_Screen_Reset</name>
+        <label>User Details Screen - Reset</label>
+        <locationX>1018</locationX>
+        <locationY>1022</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Confirm_Reset_Password_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>Copy_1_of_Output_Username</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>Get_User.Username</elementReference>
+            </defaultValue>
+            <fieldText>Username</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isReadOnly>
+                <booleanValue>true</booleanValue>
+            </isReadOnly>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>User_Details_Screen_Reset_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>User_Details_Screen_Reset_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Copy_1_of_Output_User_Created_Date</name>
+                    <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Get_User.CreatedDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Created Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isReadOnly>
+                        <booleanValue>true</booleanValue>
+                    </isReadOnly>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>User_Details_Screen_Reset_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Copy_1_of_Output_Last_Login</name>
+                    <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Get_User.LastLoginDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Last Login</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isReadOnly>
+                        <booleanValue>true</booleanValue>
+                    </isReadOnly>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Copy_1_of_LoginAsUserButton</name>
+            <extensionName>c:flowNavigationButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>variant</name>
+                <value>
+                    <stringValue>brand-outline</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>disabled</name>
+                <value>
+                    <elementReference>loginAsUserIsDisabled</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>iconName</name>
+                <value>
+                    <stringValue>utility:new_window</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Log in to Experience as User</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>openInNewTab</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>url</name>
+                <value>
+                    <elementReference>strFmlLogInAsUserUrl</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>disabledTooltip</name>
+                <value>
+                    <elementReference>ttLoginAsUserDisabledTooltipMessage</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>1</conditionLogic>
+                <conditions>
+                    <leftValueReference>boolFmlUserCanLogInAsUser</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <nextOrFinishButtonLabel>Reset Password</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>User_Details_Screen_View_Only</name>
+        <label>User Details Screen - View Only</label>
+        <locationX>1546</locationX>
+        <locationY>1022</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Copy_3_of_Output_Username</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>Get_User.Username</elementReference>
+            </defaultValue>
+            <fieldText>Username</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isReadOnly>
+                <booleanValue>true</booleanValue>
+            </isReadOnly>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>User_Details_Screen_View_Only_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>User_Details_Screen_View_Only_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Copy_3_of_Output_User_Created_Date</name>
+                    <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Get_User.CreatedDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Created Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isReadOnly>
+                        <booleanValue>true</booleanValue>
+                    </isReadOnly>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>User_Details_Screen_View_Only_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Copy_3_of_Output_Last_Login</name>
+                    <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Get_User.LastLoginDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Last Login</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isReadOnly>
+                        <booleanValue>true</booleanValue>
+                    </isReadOnly>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Copy_3_of_LoginAsUserButton</name>
+            <extensionName>c:flowNavigationButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>variant</name>
+                <value>
+                    <stringValue>brand-outline</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>disabled</name>
+                <value>
+                    <elementReference>loginAsUserIsDisabled</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>iconName</name>
+                <value>
+                    <stringValue>utility:new_window</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Log in to Experience as User</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>openInNewTab</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>url</name>
+                <value>
+                    <elementReference>strFmlLogInAsUserUrl</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>disabledTooltip</name>
+                <value>
+                    <elementReference>ttLoginAsUserDisabledTooltipMessage</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>1</conditionLogic>
+                <conditions>
+                    <leftValueReference>boolFmlUserCanLogInAsUser</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <nextOrFinishButtonLabel>User Actions</nextOrFinishButtonLabel>
+        <showFooter>false</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
     <start>
-        <locationX>1475</locationX>
+        <locationX>2481</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_for_User_Permission</targetReference>
@@ -795,8 +1378,8 @@
     <subflows>
         <name>Enable_Community_User</name>
         <label>Enable Community User</label>
-        <locationX>1502</locationX>
-        <locationY>566</locationY>
+        <locationX>2470</locationX>
+        <locationY>674</locationY>
         <connector>
             <targetReference>Check_Result</targetReference>
         </connector>
