@@ -1,6 +1,13 @@
 @IsTest
 public class CommunityUserTestData {
 
+    private static Set<String> defaultProfileNames = new Set<String>{
+        'Customer Community Login User', 
+        'Customer Community Plus Login User',
+        'Customer Community Plus User',
+        'Customer Community User'
+    };
+
     private static User runningUser;
     
     public static User createCommunityUserWithUsername(String username) {
@@ -17,7 +24,10 @@ public class CommunityUserTestData {
             insert contact;
 
             Community_User_Setting__mdt settings = Community_User_Setting__mdt.getInstance('Default');
-            Profile communityProfile = [SELECT Id FROM Profile WHERE Name = :settings.Profile_Name__c LIMIT 1];
+            List<Profile> communityProfiles = [SELECT Id FROM Profile WHERE Name = :settings.Profile_Name__c LIMIT 1];
+            if (!communityProfiles.isEmpty()) {
+                communityProfiles = [SELECT Id FROM Profile WHERE Name IN :defaultProfileNames LIMIT 1];
+            }
 
             u = new User(
                 Username = USERNAME,
@@ -27,7 +37,7 @@ public class CommunityUserTestData {
                 ContactId = contact.Id,
                 Alias = 'testu',
                 CommunityNickname = USERNAME.substring(0, USERNAME.indexOf('@')),
-                ProfileId = communityProfile.Id,
+                ProfileId = communityProfiles[0].Id,
                 TimeZoneSidKey = UserInfo.getTimeZone().toString(),
                 LocaleSidKey = UserInfo.getLocale(),
                 EmailEncodingKey = settings.Email_Encoding_Key__c,
