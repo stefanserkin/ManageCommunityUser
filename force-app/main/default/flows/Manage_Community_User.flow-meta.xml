@@ -296,6 +296,7 @@
         <expression>IF( {!Input_EmailIsDifferent}, {!Input_Email.value}, {!Input_Username.value} )</expression>
     </formulas>
     <interviewLabel>Manage Community User {!$Flow.CurrentDateTime}</interviewLabel>
+    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>Manage Community User</label>
     <processMetadataValues>
         <name>BuilderType</name>

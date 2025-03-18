@@ -6,11 +6,31 @@
     </classAccesses>
     <customPermissions>
         <enabled>true</enabled>
-        <name>Manage_Community_Users</name>
+        <name>Manage_Community_User_Disable_User</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Manage_Community_User_Enable_User</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Manage_Community_User_Log_in_as_User</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Manage_Community_User_Reset_Password</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Manage_Community_User_View_Only</name>
     </customPermissions>
     <description>Access to the Manage Community User screen flow on contact record pages</description>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>Manage_Community_User</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Manage Community Users</label>
+    <label>Manage Community User</label>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>

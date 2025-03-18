@@ -190,6 +190,7 @@ export default class ManageCommunityUser extends LightningElement {
     /*************************************************
      * Enable User Actions
      *************************************************/
+    
     async handleEnableUser() {
         const result = await EnableUserModal.open({
             size: 'small',
