@@ -61,6 +61,8 @@ public with sharing class CommunityUserService {
             if (hasCommunityNicknameError) {
                 Database.SaveResult retryResult = Database.insert(u, true, AccessLevel.SYSTEM_MODE);
                 userId = retryResult.getId();
+            } else {
+                throw new CommunityUserServiceException('Failed to insert new user with error: ' + sr.getErrors()[0].getMessage());
             }
         }
         return userId;

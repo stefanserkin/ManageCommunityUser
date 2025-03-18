@@ -216,7 +216,10 @@ export default class ManageCommunityUser extends LightningElement {
                 lastName: this.lastName
             };
             const jsonString = JSON.stringify(request);
+            console.log('jsonString --> ',jsonString);
             const response = await enableUser({ jsonString });
+
+            console.log('response --> ',response);
 
             this.dispatchEvent(
                 new ShowToastEvent({
