@@ -85,7 +85,7 @@ export default class ManageCommunityUser extends LightningElement {
 
     @wire(getCommunityUser, { contactId: '$recordId' })
     wiredUserResult(result) {
-        if (!this.recordId) {
+        if (!this.recordId || !this.userCanViewComponent) {
             return;
         }
 

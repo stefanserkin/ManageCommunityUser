@@ -70,7 +70,7 @@ public class CommunityUserTestData {
         runningUser.ProfileId = profile.Id;
         insert runningUser;
 
-        String permSetName = 'Manage_Community_Users';
+        String permSetName = 'Manage_Community_User';
         PermissionSet permSet = [SELECT Id FROM PermissionSet WHERE Name = :permSetName LIMIT 1];
         insert new PermissionSetAssignment(
             AssigneeId = runningUser.Id,
