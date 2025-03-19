@@ -3,6 +3,7 @@ public without sharing class CommunityUserService {
     public class CommunityUserServiceException extends Exception {}
 
     private static final String SETTINGS_NAME = 'Default';
+    
     private Community_User_Setting__mdt communitySettings;
 
     public CommunityUserService() {

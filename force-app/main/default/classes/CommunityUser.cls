@@ -42,7 +42,6 @@ public class CommunityUser {
     private void setNetwork(Id networkId) {
         this.networkId = networkId;
 
-        // Set logInAsUrl
         String url = System.URL.getOrgDomainUrl().toExternalForm() + '/servlet/servlet.su' +
                      '?oid=' + UserInfo.getOrganizationId() + 
                      '&retURL=%2F' + contactId +

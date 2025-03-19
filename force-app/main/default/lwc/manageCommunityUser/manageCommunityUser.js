@@ -94,7 +94,6 @@ export default class ManageCommunityUser extends LightningElement {
         
         if (result.data) {
             this.communityUser = result.data;
-            console.log('communityUser --> ', JSON.stringify(this.communityUser));
         } else if (result.error) {
             this.communityUser = undefined;
             this.error = result.error;
